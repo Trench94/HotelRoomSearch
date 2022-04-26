@@ -9,9 +9,9 @@ class Searcher
     private \MercuryHolidays\Search\Data $data;
 
     /**
-     * @var array
+     * @var array|bool
      */
-    private array $properties;
+    private array|bool $properties;
 
     /**
      * Searcher constructor.

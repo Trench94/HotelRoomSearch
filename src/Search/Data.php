@@ -6,9 +6,9 @@ namespace MercuryHolidays\Search;
 
 class Data
 {
-    private array $properties = [];
+    public array $properties = [];
 
-    private array $data = [
+    public array $data = [
         ['Hotel A', false, 1, 1, 25.80],
         ['Hotel A', false, 1, 2, 25.80],
         ['Hotel A', true, 1, 3, 25.80],
@@ -100,6 +100,11 @@ class Data
      */
     public function getProperties(): array
     {
-        return apcu_fetch('properties');
+        $value = apcu_fetch('properties');
+        if(!$value == false){
+            return $value;
+        } else {
+            return [];
+        }
     }
 }
