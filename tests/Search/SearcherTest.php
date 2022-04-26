@@ -41,6 +41,10 @@ class SearcherTest extends TestCase
         $this->searcher = new Searcher();
     }
 
+    /**
+     * Empty search check
+     * - Check the search returns an empty dataset on zero values
+     */
     public function testSearchDoesReturnEmptyArray(): void
     {
         $results = $this->searcher->search(0, 0, 0);
@@ -51,6 +55,10 @@ class SearcherTest extends TestCase
         );
     }
 
+    /**
+     * Search is valid array
+     * - Check the search results return an array, empty or with elements
+     */
     public function testSearchDoesReturnValidArray(): void
     {
         $results = $this->searcher->search(2, 20, 30);
@@ -58,15 +66,26 @@ class SearcherTest extends TestCase
         $this->assertIsArray($results, 'Search must return type array');
     }
 
+    /**
+     * Room is available test
+     * - Check the property has been excluded from the updatedRecords
+     */
     public function testSearchAvailableRooms(): void
     {
         $data = $this->dataArray->properties;
 
-        $results = $this->invokeMethod($this->searcher, 'isRoomAvailable', array($data[0]));
+        $this->invokeMethod($this->searcher, 'isRoomAvailable', array($data[0]));
 
-        $this->assertIsBool($results, 'Search must return type boolean');
+        $updatedRecords = $this->dataArray->getProperties();
+        $foundInResults = array_search($data[0], $updatedRecords); // False if not found
+
+        $this->assertFalse($foundInResults, 'Data found in results array');
     }
 
+    /**
+     * Room is within budget
+     * - Check the property has been excluded from the updatedRecords
+     */
     public function testSearchRoomWithinBudget(): void
     {
         $data = $this->dataArray->properties;
@@ -77,11 +96,18 @@ class SearcherTest extends TestCase
             'max' => 50
         ];
 
-        $results = $this->invokeMethod($this->searcher, 'isRoomWithinBudget', array($data[0], $criteria));
+        $this->invokeMethod($this->searcher, 'isRoomWithinBudget', array($data[0], $criteria));
 
-        $this->assertIsBool($results, 'Search must return type boolean');
+        $updatedRecords = $this->dataArray->getProperties();
+        $foundInResults = array_search($data[0], $updatedRecords); // False if not found
+
+        $this->assertFalse($foundInResults, 'Data found in results array');
     }
 
+    /**
+     * Room is adjacent test
+     * - Check the property has been excluded from the updatedRecords
+     */
     public function testSearchIsRoomAdjacent(): void
     {
         $data = $this->dataArray->properties;
@@ -92,8 +118,11 @@ class SearcherTest extends TestCase
             'max' => 50
         ];
 
-        $results = $this->invokeMethod($this->searcher, 'isRoomAdjacent', array($data[0], $criteria));
+        $this->invokeMethod($this->searcher, 'isRoomAdjacent', array($data[0], $criteria));
 
-        $this->assertIsBool($results, 'Search must return type boolean');
+        $updatedRecords = $this->dataArray->getProperties();
+        $foundInResults = array_search($data[0], $updatedRecords); // False if not found
+
+        $this->assertFalse($foundInResults, 'Data found in results array');
     }
 }
