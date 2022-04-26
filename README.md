@@ -1,4 +1,4 @@
-# Mercury Holidays - Take Home Test
+# Hotel Room Search
 
 # Task Description
 Your task is to fill in the stubbed Property Searcher service to return correct results based on the input criteria.
